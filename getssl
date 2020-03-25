@@ -773,6 +773,8 @@ create_order() {
       # find array position (This is O(n2) but that doubt we'll see performance issues)
       dn=0
       for d in $alldomains; do
+        # Convert domain to lowercase
+        d=$(echo $d | tr A-Z a-z)
         if [ "$d" == "$authdomain" ]; then
           debug "Saving authorization response for $authdomain for domain alldomains[$dn]"
           AuthLinkResponse[$dn]=$response
@@ -853,6 +855,7 @@ fulfill_challenges() {
 dn=0
 for d in $alldomains; do
   # $d is domain in current loop, which is number $dn for ACL
+  d=$(echo $d | tr A-Z a-z)
   info "Verifying $d"
   if [[ "$USE_SINGLE_ACL" == "true" ]]; then
     DOMAIN_ACL="${ACL[0]}"
